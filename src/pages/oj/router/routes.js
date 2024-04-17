@@ -91,13 +91,13 @@ export default [
   },
   {
     name: 'contest-details',
-    path: '/contest/:contestID/',
+    path: '/contest/:contestID',
     component: Contest.ContestDetails,
     meta: {title: 'Contest Details'},
     children: [
       {
-        name: 'contest-details',
-        path: '',
+        name: 'contest-overview',
+        path: 'overview',
         component: Contest.Overview
       },
       {
