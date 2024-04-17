@@ -1,5 +1,17 @@
 <template>
-  <div class="flex-container">
+<div>
+  <div class="contestBox">
+    <div class="contestTitle">
+      <p>{{contest.title}}</p>
+      <div slot="extra">
+        <Tag type="dot" :color="countdownColor">
+          <span id="countdown">{{countdown}}</span>
+        </Tag>
+      </div>
+    </div>
+  </div>
+  
+  <!-- <div class="flex-container">
     <div id="contest-main">
       <div class="flex-container">
         <template>
@@ -26,7 +38,8 @@
         </template>
       </div>
     </div>
-  </div>
+  </div> -->
+</div>
 </template>
 
 <script>
@@ -131,9 +144,6 @@
           return CONTEST_STATUS_REVERSE[this.contestStatus].color
         }
       },
-      showAdminHelper () {
-        return this.isContestAdmin && this.contestRuleType === 'ACM'
-      }
     },
     watch: {
       '$route' (newVal) {
@@ -148,10 +158,28 @@
     }
   }
 </script>
+
 <style lang="less" scoped>
+.contestBox{
+  border: 1px solid #e9ece9;
+  background: var(--box-background-color);
+  padding: 10px 20px;
+  border-radius: 7px;
+}
+.contestTitle{
+  display: flex;
+  justify-content: space-between;
+  p {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+  }
   #countdown {
     font-size: 16px;
   }
+}
+
+  
   .flex-container {
     #contest-main {
       flex: 1 1;
