@@ -1,81 +1,16 @@
 <template>
-  <div class="flex-container">
-    <div id="contest-main">
-      <!--children-->
+  <main>
+    <side-nav-bar></side-nav-bar>
+    <div id="contest-content">
       <transition name="fadeInUp">
         <router-view></router-view>
       </transition>
-      <!--children end-->
-      <div class="flex-container" v-if="route_name === 'contest-details'">
-        <template>
-          <div id="contest-desc">
-            <Panel :padding="20" shadow>
-              <div slot="title">
-                {{contest.title}}
-              </div>
-              <div slot="extra">
-                <Tag type="dot" :color="countdownColor">
-                  <span id="countdown">{{countdown}}</span>
-                </Tag>
-              </div>
-              <div v-html="contest.description" class="markdown-body"></div>
-              <div v-if="passwordFormVisible" class="contest-password">
-                <Input v-model="contestPassword" type="password"
-                       placeholder="contest password" class="contest-password-input"
-                       @on-enter="checkPassword"/>
-                <Button type="info" @click="checkPassword">Enter</Button>
-              </div>
-            </Panel>
-            <Table :columns="columns" :data="contest_table" disabled-hover style="margin-bottom: 40px;"></Table>
-          </div>
-        </template>
-      </div>
-
     </div>
-    <div v-show="showMenu" id="contest-menu">
-      <VerticalMenu @on-click="handleRoute">
-        <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
-          <Icon type="home"></Icon>
-          {{$t('m.Overview')}}
-        </VerticalMenu-item>
-
-        <VerticalMenu-item :disabled="contestMenuDisabled"
-                           :route="{name: 'contest-announcement-list', params: {contestID: contestID}}">
-          <Icon type="chatbubble-working"></Icon>
-          {{$t('m.Announcements')}}
-        </VerticalMenu-item>
-
-        <VerticalMenu-item :disabled="contestMenuDisabled"
-                           :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
-          <Icon type="ios-photos"></Icon>
-          {{$t('m.Problems')}}
-        </VerticalMenu-item>
-
-        <VerticalMenu-item v-if="OIContestRealTimePermission"
-                           :disabled="contestMenuDisabled"
-                           :route="{name: 'contest-submission-list'}">
-          <Icon type="navicon-round"></Icon>
-          {{$t('m.Submissions')}}
-        </VerticalMenu-item>
-
-        <VerticalMenu-item v-if="OIContestRealTimePermission"
-                           :disabled="contestMenuDisabled"
-                           :route="{name: 'contest-rank', params: {contestID: contestID}}">
-          <Icon type="stats-bars"></Icon>
-          {{$t('m.Rankings')}}
-        </VerticalMenu-item>
-
-        <VerticalMenu-item v-if="showAdminHelper"
-                           :route="{name: 'acm-helper', params: {contestID: contestID}}">
-          <Icon type="ios-paw"></Icon>
-          {{$t('m.Admin_Helper')}}
-        </VerticalMenu-item>
-      </VerticalMenu>
-    </div>
-  </div>
+  </main>
 </template>
 
 <script>
+  import SideNavBar from "./SideNavBar.vue";
   import moment from 'moment'
   import api from '@oj/api'
   import { mapState, mapGetters, mapActions } from 'vuex'
@@ -84,8 +19,8 @@
   import time from '@/utils/time'
 
   export default {
+    components: {SideNavBar},
     name: 'ContestDetail',
-    components: {},
     data () {
       return {
         CONTEST_STATUS: CONTEST_STATUS,
@@ -196,34 +131,13 @@
 </script>
 
 <style scoped lang="less">
-  pre {
-    display: inline-block;
-  }
+main {
+  width: 1200px;
+  display: flex;
+  gap: 10px;
 
-  #countdown {
-    font-size: 16px;
+  #contest-content{
+    flex: 1 auto;
   }
-
-  .flex-container {
-    #contest-main {
-      flex: 1 1;
-      width: 0;
-      #contest-desc {
-        flex: auto;
-      }
-    }
-    #contest-menu {
-      flex: none;
-      width: 210px;
-      margin-left: 20px;
-    }
-    .contest-password {
-      margin-top: 20px;
-      margin-bottom: -10px;
-      &-input {
-        width: 200px;
-        margin-right: 10px;
-      }
-    }
-  }
+}
 </style>
