@@ -9,9 +9,19 @@
         </Tag>
       </div>
     </div>
+    <div class="contestContent">
+      <div v-html="contest.description" class="markdown-body"></div>
+      <!-- v-if="passwordFormVisible" -->
+      <div class="contestPassword">
+        <Input v-model="contestPassword" type="password"
+               :placeholder="$t('m.Contest_Password_Placeholder')" class="contestPasswordInput"
+               @on-enter="checkPassword"/>
+        <Button type="info" @click="checkPassword">{{$t('m.Button_Enter')}}</Button>
+      </div>
+    </div>
   </div>
   
-  <!-- <div class="flex-container">
+  <div class="flex-container">
     <div id="contest-main">
       <div class="flex-container">
         <template>
@@ -26,7 +36,7 @@
                 </Tag>
               </div>
               <div v-html="contest.description" class="markdown-body"></div>
-              <div v-if="passwordFormVisible" class="contest-password">
+              <div class="contest-password">
                 <Input v-model="contestPassword" type="password"
                        placeholder="contest password" class="contest-password-input"
                        @on-enter="checkPassword"/>
@@ -38,7 +48,7 @@
         </template>
       </div>
     </div>
-  </div> -->
+  </div>
 </div>
 </template>
 
@@ -160,13 +170,16 @@
 </script>
 
 <style lang="less" scoped>
-.contestBox{
+.contestBox {
   border: 1px solid #e9ece9;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
   background: var(--box-background-color);
   padding: 10px 20px;
   border-radius: 7px;
 }
-.contestTitle{
+.contestTitle {
   display: flex;
   justify-content: space-between;
   p {
@@ -176,6 +189,16 @@
   }
   #countdown {
     font-size: 16px;
+  }
+}
+.contestContent {
+  padding: 0px 10px;
+  .contestPassword {
+    display: flex;
+    gap: 10px;
+    .contestPasswordInput {
+      width: 200px;
+    }
   }
 }
 
