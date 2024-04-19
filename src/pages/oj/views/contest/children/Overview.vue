@@ -231,6 +231,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
   .contestTag {
     width: fit-content;
     background-color: #F7F7F7; 
