@@ -1,12 +1,13 @@
 <script>
-import api from "../../api";
-import utils, {comma} from "../../../../utils/utils";
-import Pagination from "../../components/Pagination.vue";
+import api from "../../../api";
+import utils, {comma} from "../../../../../utils/utils";
+import Pagination from "../../../components/Pagination.vue";
 import {push} from "echarts/lib/component/dataZoom/history";
+import MajorRankItem from "./MajorRankItem.vue";
 
 export default {
   name: 'MajorRank',
-  components: {Pagination},
+  components: {MajorRankItem, Pagination},
   data() {
     return {
       isLoading: true,
@@ -56,22 +57,17 @@ export default {
 
 <template>
   <div class="major-rank">
-    <table>
-      <tr>
-        <th class="rank">{{ $t('m.Rank') }}</th>
-        <th class="major">{{ $t('m.Major') }}</th>
-        <th class="score">{{ $t('m.Total_Score') }}</th>
-        <th class="people">{{ $t('m.Num_People') }}</th>
-      </tr>
-      <tbody>
-      <tr v-for="(major, index) in this.majorRankList" :key="index">
-        <td class="rank">{{ major.rank }}</td>
-        <td class="major">{{ major.major }}</td>
-        <td class="score">{{ comma(major.score) }}</td>
-        <td class="people">{{ comma(major.people) }}</td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="table">
+      <div class="table-header">
+        <div class="rank">{{ $t('m.Rank') }}</div>
+        <div class="major">{{ $t('m.Major') }}</div>
+        <div class="score">{{ $t('m.Total_Score') }}</div>
+        <div class="people">{{ $t('m.Num_People') }}</div>
+      </div>
+      <div class="table-body">
+        <major-rank-item v-for="(major, index) in this.majorRankList" :major="major" :key="index"/>
+      </div>
+    </div>
     <Pagination
       :total="this.total"
       :limit="10"
@@ -88,64 +84,43 @@ export default {
   background-color: var(--box-background-color);
 }
 
-table {
+.table {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
 
-  th {
+  .table-header {
+    display: flex;
+    justify-content: space-around;
     padding: 5px 0;
     border-bottom: 1px solid #f0f0f0;
     font-size: 15px;
     color: #666;
 
-    &.rank {
+    & > .rank {
       width: 15%;
+      text-align: center;
     }
 
-    &.major {
+    & > .major {
       width: 60%;
       text-align: left;
       padding: 0 10px;
     }
 
-    &.score {
+    & > .score {
       width: 5%;
-      text-align: left;
+      text-align: right;
     }
 
-    &.people {
+    & > .people {
       width: 15%;
       text-align: center;
     }
   }
 
-  tbody {
-    tr {
-      border-top: 1px solid #dedede;
+  .table-body {
 
-      td {
-        padding: 15px 0;
-        font-size: 13px;
-        color: #666;
-
-        &.rank {
-          text-align: center;
-        }
-
-        &.major {
-          padding: 0 10px;
-        }
-
-        &.score {
-
-        }
-
-        &.people {
-          text-align: center;
-        }
-      }
-    }
   }
 }
 </style>
