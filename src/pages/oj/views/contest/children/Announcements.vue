@@ -9,13 +9,13 @@
       </div>
     </div>
     <div v-if="listVisible" class="announcementContent">
+      <div v-if="!announcements.length" key="noAnnouncement">{{$t('m.No_Announcements')}}</div>
       <a v-for="announcement in announcements" :key="announcement.id" class="announcementItem" @click="goAnnouncement(announcement)">
         <div class="title">{{announcement.title}}</div>
         <div class="date">{{announcement.create_time | localtime('YYYY-M-D')}}</div>
         <div class="creator">{{announcement.created_by.username}}</div>
       </a>
     </div>
-
   </div>
   <Panel shadow :padding="10">
     <!-- <div slot="title">
@@ -130,27 +130,27 @@
 .announcementContent {
   display: flex;
   flex-direction: column;
+  font-size: 16px;
+  text-align: center;
 }
 .announcementItem {
   display: flex;
-  color: #495060;
-  font-size: 16px;
   margin: 0px 20px;
+  color: #495060;
   padding: 15px;
   border-bottom: 1px solid rgba(187, 187, 187, 0.5);
   &:last-child { border-bottom: none; }
   .title {
     flex: 1 auto;
+    text-align: left;
   }
   .date {
     flex-shrink: 0;
     width: 150px;
-    text-align: center;
   }
   .creator {
     flex-shrink: 0;
     width: 150px;
-    text-align: center;
   }
 }
 
