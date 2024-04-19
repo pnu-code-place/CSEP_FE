@@ -1,93 +1,55 @@
 <template>
-<div>
-  <div class="submissionBox">
-    <div class="submissionTitle">
-      <p>{{title}}</p>
-      <div style="display: flex; align-items: center; gap: 20px;">
-        <Dropdown @on-click="handleResultChange">
-          <span>{{status}}
-            <Icon type="arrow-down-b"></Icon>
-          </span>
-          <Dropdown-menu slot="list">
-            <Dropdown-item name="">{{$t('m.All')}}</Dropdown-item>
-            <Dropdown-item v-for="status in Object.keys(JUDGE_STATUS)" :key="status" :name="status">
-              {{$t('m.' + JUDGE_STATUS[status].name.replace(/ /g, "_"))}}
-            </Dropdown-item>
-          </Dropdown-menu>
-        </Dropdown>
-        <i-switch size="large" v-model="formFilter.myself" @on-change="handleQueryChange">
-          <span slot="open">{{$t('m.Mine')}}</span>
-          <span slot="close">{{$t('m.All')}}</span>
-        </i-switch>
-        <Input v-model="formFilter.username" :placeholder="$t('m.Search_Author')" @on-enter="handleQueryChange" style="width: 150px;"/>
-        <Button type="info" icon="refresh" @click="getSubmissions">{{$t('m.Refresh')}}</Button>
-      </div>
-    </div>
-    <table class="submissionContent">
-      <thead>
-        <th>{{ $t('m.When') }}</th>
-        <th>{{ $t('m.ID') }}</th>
-        <th>{{ $t('m.Status') }}</th>
-        <th>{{ $t('m.Problem') }}</th>
-        <th>{{ $t('m.Time') }}</th>
-        <th>{{ $t('m.Memory') }}</th>
-        <th>{{ $t('m.Language') }}</th>
-        <th>{{ $t('m.Submission_Table_Author') }}</th>
-      </thead>
-      <tbody>
-        <tr v-for="submission in submissions">
-          <td style="cursor: default;">{{submission.time_cost | localtime('YYYY-M-D')}}</td>
-          <td><a @click="goSubmissionDetail(submission.id)">{{submission.id.slice(0,12)}}</a></td>
-          <td><Tag style="cursor: default;" :color="JUDGE_STATUS[submission.result].color">{{JUDGE_STATUS[submission.result].name}}</Tag></td>
-          <td><a @click="goProblemDetail(submission.problem)">{{submission.problem}}</a></td>
-          <td style="cursor: default;">{{submissionTimeFormat(submission.statistic_info.time_cost)}}</td>
-          <td style="cursor: default;">{{submissionMemoryFormat(submission.statistic_info.memory_cost)}}</td>
-          <td style="cursor: default;">{{submission.language}}</td>
-          <td><a @click="goUserHome(submission.username)">{{submission.username}}</a></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <Pagination :total="total" :page-size="limit" @on-change="changeRoute" :current.sync="page"></Pagination>
-  <div class="flex-container">
-    <div id="main">
-      <Panel shadow>
-        <div slot="title">{{title}}</div>
-        <div slot="extra">
-          <ul class="filter">
-            <li>
-              <Dropdown @on-click="handleResultChange">
-                <span>{{status}}
-                  <Icon type="arrow-down-b"></Icon>
-                </span>
-                <Dropdown-menu slot="list">
-                  <Dropdown-item name="">{{$t('m.All')}}</Dropdown-item>
-                  <Dropdown-item v-for="status in Object.keys(JUDGE_STATUS)" :key="status" :name="status">
-                    {{$t('m.' + JUDGE_STATUS[status].name.replace(/ /g, "_"))}}
-                  </Dropdown-item>
-                </Dropdown-menu>
-              </Dropdown>
-            </li>
-            <li>
-              <i-switch size="large" v-model="formFilter.myself" @on-change="handleQueryChange">
-                <span slot="open">{{$t('m.Mine')}}</span>
-                <span slot="close">{{$t('m.All')}}</span>
-              </i-switch>
-            </li>
-            <li>
-              <Input v-model="formFilter.username" :placeholder="$t('m.Search_Author')" @on-enter="handleQueryChange"/>
-            </li>
-            <li>
-              <Button type="info" icon="refresh" @click="getSubmissions">{{$t('m.Refresh')}}</Button>
-            </li>
-          </ul>
+  <div>
+    <div class="submissionBox">
+      <div class="submissionTitle">
+        <p>{{$t('m.Submissions')}}</p>
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <Dropdown @on-click="handleResultChange">
+            <span style="cursor: default;">{{status}}
+              <Icon type="arrow-down-b"></Icon>
+            </span>
+            <Dropdown-menu slot="list">
+              <Dropdown-item name="">{{$t('m.All')}}</Dropdown-item>
+              <Dropdown-item v-for="status in Object.keys(JUDGE_STATUS)" :key="status" :name="status">
+                {{$t('m.' + JUDGE_STATUS[status].name.replace(/ /g, "_"))}}
+              </Dropdown-item>
+            </Dropdown-menu>
+          </Dropdown>
+          <i-switch size="large" v-model="formFilter.myself" @on-change="handleQueryChange">
+            <span slot="open">{{$t('m.Mine')}}</span>
+            <span slot="close">{{$t('m.All')}}</span>
+          </i-switch>
+          <Input v-model="formFilter.username" :placeholder="$t('m.Search_Author')" @on-enter="handleQueryChange" style="width: 150px;"/>
+          <Button type="info" icon="refresh" @click="getSubmissions">{{$t('m.Refresh')}}</Button>
         </div>
-        <Table stripe :disabled-hover="true" :columns="columns" :data="submissions" :loading="loadingTable"></Table>
-        <Pagination :total="total" :page-size="limit" @on-change="changeRoute" :current.sync="page"></Pagination>
-      </Panel>
+      </div>
+      <table class="submissionContent">
+        <thead>
+          <th>{{ $t('m.When') }}</th>
+          <th>{{ $t('m.ID') }}</th>
+          <th>{{ $t('m.Status') }}</th>
+          <th>{{ $t('m.Problem') }}</th>
+          <th>{{ $t('m.Time') }}</th>
+          <th>{{ $t('m.Memory') }}</th>
+          <th>{{ $t('m.Language') }}</th>
+          <th>{{ $t('m.Submission_Table_Author') }}</th>
+        </thead>
+        <tbody>
+          <tr v-for="submission in submissions">
+            <td style="cursor: default;">{{submission.time_cost | localtime('YYYY-M-D')}}</td>
+            <td><a @click="goSubmissionDetail(submission.id)">{{submission.id.slice(0,12)}}</a></td>
+            <td><Tag style="cursor: default;" :color="JUDGE_STATUS[submission.result].color">{{JUDGE_STATUS[submission.result].name}}</Tag></td>
+            <td><a @click="goProblemDetail(submission.problem)">{{submission.problem}}</a></td>
+            <td style="cursor: default;">{{submissionTimeFormat(submission.statistic_info.time_cost)}}</td>
+            <td style="cursor: default;">{{submissionMemoryFormat(submission.statistic_info.memory_cost)}}</td>
+            <td style="cursor: default;">{{submission.language}}</td>
+            <td><a @click="goUserHome(submission.username)">{{submission.username}}</a></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <Pagination :total="total" :page-size="limit" @on-change="changeRoute" :current.sync="page"></Pagination>
   </div>
-</div>
 </template>
 
 <script>
@@ -110,114 +72,6 @@
           result: '',
           username: ''
         },
-        columns: [
-          {
-            title: this.$i18n.t('m.When'),
-            align: 'center',
-            render: (h, params) => {
-              return h('span', time.utcToLocal(params.row.create_time))
-            }
-          },
-          {
-            title: this.$i18n.t('m.ID'),
-            align: 'center',
-            render: (h, params) => {
-              if (params.row.show_link) {
-                return h('span', {
-                  style: {
-                    color: '#57a3f3',
-                    cursor: 'pointer'
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push('/status/' + params.row.id)
-                    }
-                  }
-                }, params.row.id.slice(0, 12))
-              } else {
-                return h('span', params.row.id.slice(0, 12))
-              }
-            }
-          },
-          {
-            title: this.$i18n.t('m.Status'),
-            align: 'center',
-            render: (h, params) => {
-              return h('Tag', {
-                props: {
-                  color: JUDGE_STATUS[params.row.result].color
-                }
-              }, this.$i18n.t('m.' + JUDGE_STATUS[params.row.result].name.replace(/ /g, '_')))
-            }
-          },
-          {
-            title: this.$i18n.t('m.Problem'),
-            align: 'center',
-            render: (h, params) => {
-              return h('span',
-                {
-                  style: {
-                    color: '#57a3f3',
-                    cursor: 'pointer'
-                  },
-                  on: {
-                    click: () => {
-                      if (this.contestID) {
-                        this.$router.push(
-                          {
-                            name: 'contest-problem-details',
-                            params: {problemID: params.row.problem, contestID: this.contestID}
-                          })
-                      } else {
-                        this.$router.push({name: 'problem-details', params: {problemID: params.row.problem}})
-                      }
-                    }
-                  }
-                },
-                params.row.problem)
-            }
-          },
-          {
-            title: this.$i18n.t('m.Time'),
-            align: 'center',
-            render: (h, params) => {
-              return h('span', utils.submissionTimeFormat(params.row.statistic_info.time_cost))
-            }
-          },
-          {
-            title: this.$i18n.t('m.Memory'),
-            align: 'center',
-            render: (h, params) => {
-              return h('span', utils.submissionMemoryFormat(params.row.statistic_info.memory_cost))
-            }
-          },
-          {
-            title: this.$i18n.t('m.Language'),
-            align: 'center',
-            key: 'language'
-          },
-          {
-            title: this.$i18n.t('m.Author'),
-            align: 'center',
-            render: (h, params) => {
-              return h('a', {
-                style: {
-                  'display': 'inline-block',
-                  'max-width': '150px'
-                },
-                on: {
-                  click: () => {
-                    this.$router.push(
-                      {
-                        name: 'user-home',
-                        query: {username: params.row.username}
-                      })
-                  }
-                }
-              }, params.row.username)
-            }
-          }
-        ],
         loadingTable: false,
         submissions: [],
         total: 30,
@@ -370,15 +224,6 @@
     },
     computed: {
       ...mapGetters(['isAuthenticated', 'user']),
-      title () {
-        if (!this.contestID) {
-          return this.$i18n.t('m.Status')
-        } else if (this.problemID) {
-          return this.$i18n.t('m.Problem_Submissions')
-        } else {
-          return this.$i18n.t('m.Submissions')
-        }
-      },
       status () {
         return this.formFilter.result === '' ? this.$i18n.t('m.Status') : this.$i18n.t('m.' + JUDGE_STATUS[this.formFilter.result].name.replace(/ /g, '_'))
       },
@@ -437,22 +282,4 @@
     font-size: 1.05em;
   }
 }
-
-  .ivu-btn-text {
-    color: #57a3f3;
-  }
-
-  .flex-container {
-    #main {
-      flex: auto;
-      margin-right: 18px;
-      .filter {
-        margin-right: -10px;
-      }
-    }
-    #contest-menu {
-      flex: none;
-      width: 210px;
-    }
-  }
 </style>
