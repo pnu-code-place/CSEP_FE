@@ -11,8 +11,7 @@
     </div>
     <div class="contestContent">
       <div v-html="contest.description" class="markdown-body"></div>
-      <!-- v-if="passwordFormVisible" -->
-      <div class="contestPassword">
+      <div class="contestPassword" v-if="passwordFormVisible">
         <Input v-model="contestPassword" type="password"
                :placeholder="$t('m.Contest_Password_Placeholder')" class="contestPasswordInput"
                @on-enter="checkPassword"/>
