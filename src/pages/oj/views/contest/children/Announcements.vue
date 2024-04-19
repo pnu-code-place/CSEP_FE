@@ -1,4 +1,4 @@
-<template>
+<template key="announcement">
 <div>
   <div class="announcementBox">
     <div class="announcementTitle">
