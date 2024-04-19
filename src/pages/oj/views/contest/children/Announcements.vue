@@ -2,10 +2,8 @@
   <div class="announcementBox">
     <div class="announcementTitle">
       <p>{{$t('m.Announcement')}}</p>
-      <div slot="extra">
-        <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">{{$t('m.Refresh')}}</Button>
-        <Button v-else type="ghost" icon="ios-undo" @click="goBack">{{$t('m.Back')}}</Button>
-      </div>
+      <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">{{$t('m.Refresh')}}</Button>
+      <Button v-else type="ghost" icon="ios-undo" @click="goBack">{{$t('m.Back')}}</Button>
     </div>
     <div v-if="listVisible" class="announcementContent">
       <div v-if="!announcements.length" key="noAnnouncement">{{$t('m.No_Announcements')}}</div>
@@ -15,9 +13,7 @@
         <div class="creator">{{announcement.created_by.username}}</div>
       </a>
     </div>
-    <div v-else>
-      <div v-html="announcement.content" key="content" class="markdown-body" style="padding: 10px 20px;"></div>
-    </div>
+    <div v-else v-html="announcement.content" key="content" class="markdown-body" style="padding: 10px 20px;"></div>
   </div>
 </template>
 
