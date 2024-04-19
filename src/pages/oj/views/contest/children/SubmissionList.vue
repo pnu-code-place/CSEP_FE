@@ -1,4 +1,54 @@
 <template>
+<div>
+  <div class="submissionBox">
+    <div class="submissionTitle">
+      <p>{{title}}</p>
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <Dropdown @on-click="handleResultChange">
+          <span>{{status}}
+            <Icon type="arrow-down-b"></Icon>
+          </span>
+          <Dropdown-menu slot="list">
+            <Dropdown-item name="">{{$t('m.All')}}</Dropdown-item>
+            <Dropdown-item v-for="status in Object.keys(JUDGE_STATUS)" :key="status" :name="status">
+              {{$t('m.' + JUDGE_STATUS[status].name.replace(/ /g, "_"))}}
+            </Dropdown-item>
+          </Dropdown-menu>
+        </Dropdown>
+        <i-switch size="large" v-model="formFilter.myself" @on-change="handleQueryChange">
+          <span slot="open">{{$t('m.Mine')}}</span>
+          <span slot="close">{{$t('m.All')}}</span>
+        </i-switch>
+        <Input v-model="formFilter.username" :placeholder="$t('m.Search_Author')" @on-enter="handleQueryChange" style="width: 150px;"/>
+        <Button type="info" icon="refresh" @click="getSubmissions">{{$t('m.Refresh')}}</Button>
+      </div>
+    </div>
+    <table class="submissionContent">
+      <thead>
+        <th>{{ $t('m.When') }}</th>
+        <th>{{ $t('m.ID') }}</th>
+        <th>{{ $t('m.Status') }}</th>
+        <th>{{ $t('m.Problem') }}</th>
+        <th>{{ $t('m.Time') }}</th>
+        <th>{{ $t('m.Memory') }}</th>
+        <th>{{ $t('m.Language') }}</th>
+        <th>{{ $t('m.Submission_Table_Author') }}</th>
+      </thead>
+      <tbody>
+        <tr v-for="submission in submissions">
+          <td style="cursor: default;">{{submission.time_cost | localtime('YYYY-M-D')}}</td>
+          <td><a @click="goSubmissionDetail(submission.id)">{{submission.id.slice(0,12)}}</a></td>
+          <td><Tag style="cursor: default;" :color="JUDGE_STATUS[submission.result].color">{{JUDGE_STATUS[submission.result].name}}</Tag></td>
+          <td><a @click="goProblemDetail(submission.problem)">{{submission.problem}}</a></td>
+          <td style="cursor: default;">{{submissionTimeFormat(submission.statistic_info.time_cost)}}</td>
+          <td style="cursor: default;">{{submissionMemoryFormat(submission.statistic_info.memory_cost)}}</td>
+          <td style="cursor: default;">{{submission.language}}</td>
+          <td><a @click="goUserHome(submission.username)">{{submission.username}}</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <Pagination :total="total" :page-size="limit" @on-change="changeRoute" :current.sync="page"></Pagination>
   <div class="flex-container">
     <div id="main">
       <Panel shadow>
@@ -18,8 +68,6 @@
                 </Dropdown-menu>
               </Dropdown>
             </li>
-
-
             <li>
               <i-switch size="large" v-model="formFilter.myself" @on-change="handleQueryChange">
                 <span slot="open">{{$t('m.Mine')}}</span>
@@ -29,7 +77,6 @@
             <li>
               <Input v-model="formFilter.username" :placeholder="$t('m.Search_Author')" @on-enter="handleQueryChange"/>
             </li>
-
             <li>
               <Button type="info" icon="refresh" @click="getSubmissions">{{$t('m.Refresh')}}</Button>
             </li>
@@ -40,6 +87,7 @@
       </Panel>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -185,7 +233,6 @@
     mounted () {
       this.init()
       this.JUDGE_STATUS = Object.assign({}, JUDGE_STATUS)
-      // 去除submitting的状态 和 两个
       delete this.JUDGE_STATUS['9']
       delete this.JUDGE_STATUS['2']
     },
@@ -232,7 +279,6 @@
           this.loadingTable = false
         })
       },
-      // 改变route， 通过监听route变化请求数据，这样可以产生route history， 用户返回时就会保存之前的状态
       changeRoute () {
         let query = utils.filterEmptyValue(this.buildQuery())
         query.contestID = this.contestID
@@ -291,7 +337,36 @@
         }, () => {
           this.submissions[index].loading = false
         })
-      }
+      },
+      goSubmissionDetail (id) {
+        this.$router.push({
+          name: 'submission-details',
+          params: {
+            id: id
+          }
+        })
+      },
+      goProblemDetail (id) {
+        this.$router.push({
+          name: 'contest-problem-details',
+          params: {
+            problemID: id, 
+            contestID: this.contestID
+          }
+        })
+      },
+      goUserHome (username) {
+        this.$router.push({
+          name: 'user-home',
+          query: {username: username}
+        })
+      },
+      submissionMemoryFormat (memory) {
+        return utils.submissionMemoryFormat(memory);
+      },
+      submissionTimeFormat (time) {
+        return utils.submissionTimeFormat(time);
+      },
     },
     computed: {
       ...mapGetters(['isAuthenticated', 'user']),
@@ -309,7 +384,7 @@
       },
       rejudgeColumnVisible () {
         return !this.contestID && this.user.admin_type === USER_TYPE.SUPER_ADMIN
-      }
+      },
     },
     watch: {
       '$route' (newVal, oldVal) {
@@ -328,6 +403,41 @@
 </script>
 
 <style scoped lang="less">
+.submissionBox {
+  border: 1px solid #e9ece9;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--box-background-color);
+  padding: 15px 20px;
+  border-radius: 7px;
+}
+.submissionTitle {
+  display: flex;
+  justify-content: space-between;
+  p {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
+.submissionContent {
+  text-align: center;
+  th {
+    width: 80px;
+    color: #7E7E7E;
+    font-size: 1.3em;
+    padding-bottom: 10px;
+  }
+  td {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 0px;
+  }
+  tr {
+    font-size: 1.05em;
+  }
+}
+
   .ivu-btn-text {
     color: #57a3f3;
   }
