@@ -91,6 +91,9 @@
   color: #495060;
   padding: 15px;
   border-bottom: 1px solid rgba(187, 187, 187, 0.5);
+  &:hover {
+    :first-child {color: #2d8cf0;}
+  }
   &:last-child { border-bottom: none; }
   .title {
     flex: 1 auto;
