@@ -16,6 +16,9 @@
         <div class="creator">{{announcement.created_by.username}}</div>
       </a>
     </div>
+    <div v-else>
+      <div v-html="announcement.content" key="content" class="markdown-body" style="padding: 10px 20px;"></div>
+    </div>
   </div>
   <Panel shadow :padding="10">
     <!-- <div slot="title">
@@ -152,6 +155,9 @@
     flex-shrink: 0;
     width: 150px;
   }
+}
+.content-container {
+  padding: 0 20px 20px 20px;
 }
 
   .announcements-container {
