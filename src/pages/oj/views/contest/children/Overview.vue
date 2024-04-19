@@ -202,7 +202,7 @@
   flex-direction: column;
   gap: 32px;
   background: var(--box-background-color);
-  padding: 10px 20px;
+  padding: 15px 20px;
   border-radius: 7px;
 }
 .contestTitle {
