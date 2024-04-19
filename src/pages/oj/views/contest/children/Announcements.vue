@@ -1,8 +1,18 @@
 <template>
-  <Panel shadow :padding="10">
-    <div slot="title">
-      {{title}}
+<div>
+  <div class="announcementBox">
+    <div class="announcementTitle">
+      <p>{{$t('m.Announcement')}}</p>
+      <div slot="extra">
+        <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">{{$t('m.Refresh')}}</Button>
+        <Button v-else type="ghost" icon="ios-undo" @click="goBack">{{$t('m.Back')}}</Button>
+      </div>
     </div>
+  </div>
+  <Panel shadow :padding="10">
+    <!-- <div slot="title">
+      {{title}}
+    </div> -->
     <div slot="extra">
       <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">{{$t('m.Refresh')}}</Button>
       <Button v-else type="ghost" icon="ios-undo" @click="goBack">{{$t('m.Back')}}</Button>
@@ -23,12 +33,6 @@
             </div>
           </li>
         </ul>
-        <Pagination v-if="!isContest"
-                    key="page"
-                    :total="total"
-                    :page-size="limit"
-                    @on-change="getAnnouncementList">
-        </Pagination>
       </template>
 
       <template v-else>
@@ -36,6 +40,7 @@
       </template>
     </transition-group>
   </Panel>
+</div>
 </template>
 
 <script>
@@ -62,11 +67,7 @@
     },
     methods: {
       init () {
-        if (this.isContest) {
-          this.getContestAnnouncementList()
-        } else {
-          this.getAnnouncementList()
-        }
+        this.getContestAnnouncementList()
       },
       getAnnouncementList (page = 1) {
         this.btnLoading = true
@@ -96,22 +97,29 @@
         this.announcement = ''
       }
     },
-    computed: {
-      title () {
-        if (this.listVisible) {
-          return this.isContest ? this.$i18n.t('m.Contest_Announcements') : this.$i18n.t('m.Announcements')
-        } else {
-          return this.announcement.title
-        }
-      },
-      isContest () {
-        return !!this.$route.params.contestID
-      }
-    }
   }
 </script>
 
 <style scoped lang="less">
+.announcementBox {
+  border: 1px solid #e9ece9;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--box-background-color);
+  padding: 15px 20px;
+  border-radius: 7px;
+}
+.announcementTitle {
+  display: flex;
+  justify-content: space-between;
+  p {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
+
   .announcements-container {
     margin-top: -10px;
     margin-bottom: 10px;
