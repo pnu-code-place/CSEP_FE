@@ -1,5 +1,4 @@
 <template>
-<div>
   <div class="contestBox">
     <div class="contestTitle">
       <p>{{contest.title}}</p>
@@ -46,36 +45,6 @@
       </div>
     </div>
   </div>
-  
-  <div class="flex-container">
-    <div id="contest-main">
-      <div class="flex-container">
-        <template>
-          <div id="contest-desc">
-            <Panel :padding="20" shadow>
-              <div slot="title">
-                {{contest.title}}
-              </div>
-              <div slot="extra">
-                <Tag type="dot" :color="countdownColor">
-                  <span id="countdown">{{countdown}}</span>
-                </Tag>
-              </div>
-              <div v-html="contest.description" class="markdown-body"></div>
-              <div class="contest-password">
-                <Input v-model="contestPassword" type="password"
-                       placeholder="contest password" class="contest-password-input"
-                       @on-enter="checkPassword"/>
-                <Button type="info" @click="checkPassword">Enter</Button>
-              </div>
-            </Panel>
-            <Table :columns="columns" :data="contest_table" disabled-hover style="margin-bottom: 40px;"></Table>
-          </div>
-        </template>
-      </div>
-    </div>
-  </div>
-</div>
 </template>
 
 <script>
@@ -241,22 +210,4 @@
     padding: 2px 7px;
   }
 }
-  
-  .flex-container {
-    #contest-main {
-      flex: 1 1;
-      width: 0;
-      #contest-desc {
-        flex: auto;
-      }
-    }
-    .contest-password {
-      margin-top: 20px;
-      margin-bottom: -10px;
-      &-input {
-        width: 200px;
-        margin-right: 10px;
-      }
-    }
-  }
 </style>
