@@ -1,4 +1,10 @@
-<template>
+<template key="contestProblem">
+<div>
+  <div class="problemBox">
+    <div class="problemTitle">
+      <p>{{$t('m.Problems_List')}}</p>
+    </div>
+  </div>
   <div>
     <Panel>
       <div slot="title">{{$t('m.Problems_List')}}</div>
@@ -14,6 +20,7 @@
              no-data-text="$t('m.No_Problems')"></Table>
     </Panel>
   </div>
+</div>
 </template>
 
 <script>
@@ -95,4 +102,20 @@
 </script>
 
 <style scoped lang="less">
+.problemBox {
+  border: 1px solid #e9ece9;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--box-background-color);
+  padding: 15px 20px;
+  border-radius: 7px;
+}
+.problemTitle {
+  p {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
 </style>
