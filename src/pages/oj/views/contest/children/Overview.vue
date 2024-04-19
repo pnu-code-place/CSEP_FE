@@ -19,6 +19,33 @@
         <Button type="info" @click="checkPassword">{{$t('m.Button_Enter')}}</Button>
       </div>
     </div>
+    <div class="contestFooter">
+      <div style="display: flex; flex-direction: column; gap: 5px;">
+        <li style="display: inline-block;">
+          <Icon type="calendar" color="#3091f2"></Icon> 시작일 : {{contest.start_time | localtime('YYYY-M-D') }}
+        </li>
+        <li style="display: inline-block;">
+          <Icon type="calendar" color="#3091f2"></Icon> 종료일 : {{contest.end_time | localtime('YYYY-M-D') }}
+        </li>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 5px;">
+        <div style="display: flex; align-items: center;">
+          대회 종류 :
+          <div class="contestTag">
+            {{contest.contest_type}}
+          </div>
+        </div>
+        <div style="display: flex; align-items: center;">
+          대회 규칙 :
+          <div class="contestTag">
+            {{contest.rule_type}}
+          </div>
+        </div>
+      </div>
+      <div style="font-size: 18px; font-weight: bold; width: 80px;">
+        {{contest.created_by.username}}
+      </div>
+    </div>
   </div>
   
   <div class="flex-container">
@@ -201,7 +228,19 @@
     }
   }
 }
-
+.contestFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .contestTag {
+    width: fit-content;
+    background-color: #F7F7F7; 
+    border: 1px solid #DDDEE1; 
+    border-radius: 32px;
+    margin-left: 4px;
+    padding: 2px 7px;
+  }
+}
   
   .flex-container {
     #contest-main {
