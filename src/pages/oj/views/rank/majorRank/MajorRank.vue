@@ -35,7 +35,7 @@ export default {
       api.getMajorRankList(this.offset, this.limits).then(res => {
         this.majorRankList = res.data.data.results
         // item의 rank에 따라서 정렬
-        this.majorRankList.sort((a, b) => a.rank - b.rank)
+        this.majorRankList.sort((a, b) => a.rank - b.rank).slice(0, 5)
         this.total = res.data.data.total
         this.isLoading = false
       })
@@ -94,7 +94,8 @@ export default {
     justify-content: space-around;
     padding: 5px 0;
     border-bottom: 1px solid #f0f0f0;
-    font-size: 15px;
+    font-size: 16px;
+    font-weight: 500;
     color: #666;
 
     & > .rank {
