@@ -361,11 +361,11 @@ export default {
       offset,
       limit
     }
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({data: {data: MajorRankListProp}})
-      }, 5000)
-    });
+    // return new Promise((resolve) => {
+    //   setTimeout(() => {
+    //     resolve({data: {data: MajorRankListProp}})
+    //   }, 5000)
+    // });
     return ajax("major_rank", "get", {params});
   },
   getContestRank(params) {
