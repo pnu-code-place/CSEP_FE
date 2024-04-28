@@ -156,7 +156,6 @@ export default {
     height: 100%;
     animation: loading 1s infinite;
   }
-
 }
 
 @keyframes loading {
