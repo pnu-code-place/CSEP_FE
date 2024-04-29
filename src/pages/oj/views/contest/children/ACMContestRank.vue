@@ -24,6 +24,22 @@
       <div class="ACMRankGraph" v-show="showChart">
         <ECharts :options="options" ref="chart" auto-resize></ECharts>
       </div>
+      <table class="ACMRankContent">
+        <thead>
+          <th>idx</th>
+          <th>name</th>
+          <th>solved</th>
+          <th v-for="problem in contestProblems">{{problem._id}}</th>
+        </thead>
+        <tbody>
+          <tr v-for="rank in myDataRank">
+            <td>{{rank.id}}</td>
+            <td>{{rank.user.username}}</td>
+            <td>{{rank.accepted_number}}</td>
+            <td v-for="problem in contestProblems">{{ rank[problem.id].isSet ? rank[problem.id].ac_time : null }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <Panel shadow>
       <div slot="title">{{ contest.title }}</div>
@@ -75,7 +91,7 @@
 <script>
   import moment from 'moment'
   import { mapActions } from 'vuex'
-
+  import api from '@oj/api'
   import Pagination from '@oj/components/Pagination'
   import ContestRankMixin from './contestRankMixin'
   import time from '@/utils/time'
@@ -154,6 +170,7 @@
           }
         ],
         dataRank: [],
+        myDataRank: [],
         options: {
           title: {
             text: this.$i18n.t('m.Top_10_Teams'),
@@ -218,19 +235,44 @@
     },
     mounted () {
       this.contestID = this.$route.params.contestID
-      this.getContestRankData(1)
-      if (this.contestProblems.length === 0) {
+      this.getContestRankData()
+
+      let params = {
+        offset: (this.page - 1) * this.limit,
+        limit: this.limit,
+        contest_id: this.$route.params.contestID,
+        force_refresh: this.forceUpdate ? '1' : '0'
+      }
+      api.getContestRank(params).then(res => {
+        this.applyToTable(res.data.data.results)
+
+        const data = res.data.data.results
+        let dataRank = JSON.parse(JSON.stringify(data))
+
         this.getContestProblems().then((res) => {
+          this.addRankData(dataRank, res.data.data)
           this.addTableColumns(res.data.data)
           this.addChartCategory(res.data.data)
         })
-      } else {
-        this.addTableColumns(this.contestProblems)
-        this.addChartCategory(this.contestProblems)
-      }
+      })
     },
     methods: {
       ...mapActions(['getContestProblems']),
+      addRankData (dataRank, problems) {
+        problems.forEach(problem => {
+          dataRank.forEach((rank, idx) => {
+            dataRank[idx][problem.id] = {isSet: false, problemId: problem._id};
+          })
+        })
+        dataRank.forEach((rank, i) => {
+          let info = rank.submission_info
+          Object.keys(info).forEach(problemID => {
+            dataRank[i][problemID].ac_time = time.secondFormat(info[problemID].ac_time)
+            dataRank[i][problemID].isSet = true
+          })
+        })
+        this.myDataRank = dataRank;
+      },
       addChartCategory (contestProblems) {
         let category = []
         for (let i = 0; i <= contestProblems.length; ++i) {
@@ -273,8 +315,6 @@
       applyToTable (data) {
         // deepcopy
         let dataRank = JSON.parse(JSON.stringify(data))
-        // 从submission_info中取出相应的problem_id 放入到父object中,这么做主要是为了适应iview table的data格式
-        // 见https://www.iviewui.com/components/table
         dataRank.forEach((rank, i) => {
           let info = rank.submission_info
           let cellClass = {}
@@ -298,8 +338,9 @@
         // 根据题目添加table column
         problems.forEach(problem => {
           this.columns.push({
+            title: problem._id,
             align: 'center',
-            key: problem.id,
+            // key: problem.id,
             width: problems.length > 15 ? 80 : null,
             renderHeader: (h, params) => {
               return h('a', {
