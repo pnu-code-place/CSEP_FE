@@ -3,6 +3,45 @@
     <div class="ACMRankBox">
       <div class="ACMRankTitle">
         <p>{{contest.title}}</p>
+        <div class="ACMRankTitleIcon">
+          <screen-full style="height: 18px; width: 18px;"></screen-full>
+          <Poptip trigger="hover">
+            <Icon type="android-settings" size="21"></Icon>
+            <div slot="content" id="switches" style="display: flex; flex-direction: column; gap: 10px;">
+              <span style="width: full; display: flex; justify-content: space-between; align-items: center;">
+                <span>{{$t('m.Chart')}}</span>
+                <i-switch v-model="showChart"></i-switch>
+              </span>
+              <span v-if="isContestAdmin" style="display: flex; justify-content: space-between; gap: 10px; align-items: center;">
+                <span>{{$t('m.RealName')}}</span>
+                <i-switch v-model="showRealName"></i-switch>
+              </span>
+              <Button type="primary" size="small" @click="downloadRankCSV">{{$t('m.download_csv')}}</Button>
+            </div>
+          </Poptip>
+        </div>
+      </div>
+      <div class="ACMRankgraph">
+        <screen-full :height="18" :width="18" class="screen-full"></screen-full>
+        <Poptip trigger="hover" placement="left-start">
+          <Icon type="android-settings" size="20"></Icon>
+          <div slot="content" id="switches">
+            <p>
+              <span>{{$t('m.Chart')}}</span>
+              <i-switch v-model="showChart"></i-switch>
+            </p>
+            <p v-if="isContestAdmin">
+              <span>{{$t('m.RealName')}}</span>
+              <i-switch v-model="showRealName"></i-switch>
+            </p>
+            <template>
+              <Button type="primary" size="small" @click="downloadRankCSV">{{$t('m.download_csv')}}</Button>
+            </template>
+          </div>
+        </Poptip>
+      </div>
+      <div v-show="showChart" class="echarts">
+        <ECharts :options="options" ref="chart" auto-resize></ECharts>
       </div>
     </div>
     <Panel shadow>
@@ -339,12 +378,20 @@
 .ACMRankTitle {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   p {
     text-decoration: none;
     font-size: 24px;
     font-weight: bold;
   }
+  .ACMRankTitleIcon {
+    display: flex;
+    width: 45px;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
+
   .echarts {
     margin: 20px auto;
     height: 400px;
