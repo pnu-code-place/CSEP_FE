@@ -26,15 +26,15 @@
       </div>
       <table class="ACMRankContent">
         <thead>
-          <th>idx</th>
-          <th>name</th>
-          <th>solved</th>
-          <th v-for="problem in contestProblems">{{problem._id}}</th>
+          <th style="width: 50px;">#</th>
+          <th>{{ $t('m.User_User') }}</th>
+          <th>{{ $t('m.Solved_Problems') }}</th>
+          <th v-for="problem in contestProblems"><a style="color: #6CCBFF;" @click="goProblemPage(problem._id)">{{problem._id}}</a></th>
         </thead>
         <tbody>
           <tr v-for="rank in myDataRank">
-            <td>{{rank.id}}</td>
-            <td>{{rank.user.username}}</td>
+            <td>{{rank.idx}}</td>
+            <td><a @click="goUserPage(rank.user.username)">{{rank.user.username}}</a></td>
             <td>{{rank.accepted_number}}</td>
             <td v-for="problem in contestProblems">{{ rank[problem.id].isSet ? rank[problem.id].ac_time : null }}</td>
           </tr>
@@ -270,6 +270,7 @@
             dataRank[i][problemID].ac_time = time.secondFormat(info[problemID].ac_time)
             dataRank[i][problemID].isSet = true
           })
+          dataRank[i].idx = (this.page - 1) * this.limit + i + 1;
         })
         this.myDataRank = dataRank;
       },
@@ -376,6 +377,21 @@
           })
         })
       },
+      goUserPage (username) {
+        this.$router.push({
+          name: 'user-dashboard',
+          params: {username: username}
+        })
+      },
+      goProblemPage (problemId) {
+        this.$router.push({
+          name: 'contest-problem-details',
+          params: {
+            contestID: this.contestID,
+            problemID: problemId
+          }
+        })
+      },
       parseTotalTime (totalTime) {
         let m = moment.duration(totalTime, 's')
         return [Math.floor(m.asHours()), m.minutes(), m.seconds()].join(':')
@@ -417,6 +433,22 @@
   margin: 0 auto;
   height: 400px;
   width: 98%;
+}
+.ACMRankContent {
+  text-align: center;
+  th {
+    width: 80px;
+    color: #7E7E7E;
+    font-size: 1.3em;
+    padding-bottom: 10px;
+  }
+  td {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 0px;
+  }
+  tr {
+    font-size: 1.05em;
+  }
 }
 
   .echarts {
