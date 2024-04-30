@@ -2,23 +2,9 @@
   <div id="header">
     <Menu mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
       <div class="logo" @click="handleRoute('/problem')">
-        <div>
-          <img src="@/assets/pojLogo.png" width="39" style="vertical-align:middle; margin-right: 10px"/>
-        </div>
         <p class="pnuName">{{ this.$route.params.problemID + '번' }}</p>
-        <Tooltip :content="'이전 문제'" placement="bottom" style="margin-left: 5px;">
-          <CustomIconBtn @click="movePrev" iconClass="fas fa-chevron-left" style="width: 20px"/>
-        </Tooltip>
-        <Tooltip :content="'다음 문제'" placement="bottom" style="margin-left: 5px">
-          <CustomIconBtn @click="pickOne" iconClass="fas fa-chevron-right" style="width: 20px"/>
-        </Tooltip>
-        <Tooltip :content="'문제 랜덤 선택'" placement="bottom" style="margin-left: 5px">
-          <CustomIconBtn @click="pickOne" iconClass="fas fa-random"/>
-        </Tooltip>
       </div>
-
-      <ProblemTimer/>
-      <div style="display: flex; height: 100%; align-items: center; width: 200px;justify-content: right">
+      <div style="display: flex; align-items: center; width: 200px;justify-content: right">
         <Tooltip :content="this.themeTooltipContent" placement="bottom"  style="margin-right: 15px">
           <CustomIconBtn @click="toggleProblemTheme" iconClass="fas fa-adjust"/>
         </Tooltip>
