@@ -42,7 +42,7 @@ export default {
 
 <template>
   <div class="major-rank-people" @click="goUserInfo">
-    <div class="ranking">{{ this.ranking }} {{$t('m.Th')}}</div>
+    <div class="ranking">{{ this.ranking }}</div>
     <div class="user-avatar">
       <img :src="user.avatar_url" alt="avatar">
     </div>
