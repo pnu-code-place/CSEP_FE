@@ -511,9 +511,6 @@ export default {
   beforeRouteEnter(to, from, next) {
     let problemCode = storage.get(buildProblemCodeKey(to.params.problemID, to.params.contestID))
     let psSettings = storage.get("ProblemSolvingSettings")
-    console.log(problemCode)
-    console.log(psSettings)
-    console.log("새로고침")
     if(psSettings){
       next(vm => {
         vm.fontSize = psSettings.fontSize
