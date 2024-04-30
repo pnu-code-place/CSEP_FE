@@ -68,6 +68,7 @@ export default {}
     border-color: #dedede;
     border-style: solid;
     border-width: 0 1px 1px 1px;
+    border-radius: 0 0 10px 10px;
     gap: 30px;
   }
 }
