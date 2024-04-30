@@ -120,8 +120,8 @@ export default {
     padding-left: 20px;
     padding-right: 20px;
     justify-content: space-between;
+    height: 50px;
     align-items: center;
-    height: 100%;
     background-color: var(--bg-color);
     color: var(--text-color);
   }
