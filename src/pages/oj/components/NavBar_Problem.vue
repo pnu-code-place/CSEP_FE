@@ -22,14 +22,10 @@
 import { mapGetters, mapActions } from 'vuex'
 import login from '@oj/views/user/Login'
 import register from '@oj/views/user/Register'
-import ProblemTimer from "./ProblemTimer.vue";
-import CustomIconBtn from "./buttons/CustomIconBtn.vue";
-import api from '@oj/api'
-
+import CustomIconBtn from "../../../../components/buttons/CustomIconBtn.vue";
 export default {
   components: {
     CustomIconBtn,
-    ProblemTimer,
     login,
     register
   },
