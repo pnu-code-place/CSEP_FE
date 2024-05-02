@@ -59,17 +59,6 @@ export default {
         mode: mode
       })
     },
-    async movePrev() {
-      // await this.$router.push({name: 'problem-details', params: {problemID: problemId}})
-    },
-    async moveNext() {
-      // await this.$router.push({name: 'problem-details', params: {problemID: problemId}})
-    },
-    async pickOne() {
-      await api.pickone().then(res => {
-        this.$router.push({name: 'problem-details', params: {problemID: res.data.data}})
-      })
-    },
     toggleProblemTheme() {
       const el = document.querySelector(':root');
       const isLightMode = !el.classList.contains('dark');
