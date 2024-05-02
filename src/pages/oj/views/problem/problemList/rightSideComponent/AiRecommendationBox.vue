@@ -23,10 +23,12 @@
         </div>
         <template v-for="(recommend_problem, index) of this.problems">
           <div class="aiRecommendProblem">
-                <span style="font-weight: bold; font-size: 15px">
+                <span style="font-weight: bold; font-size: 15px;white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;">
                   {{ recommend_problem.title }}
                 </span>
-            <a @click="enterProblemDetail(recommend_problem.id)" style="text-decoration: underline; color: #7a7a7a">
+            <a @click="enterProblemDetail(recommend_problem.id)" style="text-decoration: underline; color: #7a7a7a;white-space: nowrap;">
               {{$t('m.Try_Most_Hard_Problem_In_Last_Week')}}
             </a>
           </div>
