@@ -46,7 +46,7 @@ export default {
   },
   data(){
     return{
-      themeTooltipContent: '어두운 테마',
+      themeTooltipContent: '다크 테마',
     }
   },
   methods: {
@@ -58,24 +58,17 @@ export default {
         window.open('/admin/')
       }
     },
-    handleBtnClick(mode) {
-      console.log("setting complete!")
-      this.changeModalStatus({
-        visible: true,
-        mode: mode
-      })
-    },
     toggleProblemTheme() {
       const el = document.querySelector(':root');
       const isLightMode = !el.classList.contains('dark');
       if (isLightMode) {
         el.classList.add('dark')
         this.changeProblemSolvingTheme(true)
-        this.themeTooltipContent = '밝은 테마'
+        this.themeTooltipContent = '라이트 테마'
       } else {
         el.classList.remove('dark');
         this.changeProblemSolvingTheme(false)
-        this.themeTooltipContent = '어두운 테마'
+        this.themeTooltipContent = '다크 테마'
       }
     }
   },
