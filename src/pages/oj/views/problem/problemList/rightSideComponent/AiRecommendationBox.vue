@@ -56,9 +56,9 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
-import FieldCategoryBox from "../../../components/FieldCategoryBox.vue";
-import api from "../../../api";
-import {FIELD_MAP} from "../../../../../utils/constants";
+import FieldCategoryBox from "../../../../components/FieldCategoryBox.vue";
+import api from "../../../../api";
+import {FIELD_MAP} from "../../../../../../utils/constants";
 
 export default {
   name: 'AiRecommendationBox',
@@ -212,9 +212,7 @@ header {
   background-color: #FBFBFB;
   margin-top: 10px;
   margin-bottom: 10px;
-  padding: 10px;
-  padding-left: 10px;
-  padding-right: 20px;
+  padding: 10px 20px 10px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
