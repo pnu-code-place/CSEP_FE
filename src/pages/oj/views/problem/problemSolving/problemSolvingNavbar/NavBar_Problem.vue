@@ -90,7 +90,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="less">
 #header {
   position: fixed;
   top: 0;
@@ -106,6 +106,7 @@ export default {
     justify-content: space-between;
     height: 50px;
     align-items: center;
+    border-bottom: 1px solid var(--border-color);
     background-color: var(--bg-color);
     color: var(--text-color);
   }
