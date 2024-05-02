@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <Menu mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
+    <Menu mode="horizontal" theme="primary" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
       <div class="logo" @click="handleRoute('/problem')">
         <p class="pnuName">{{ this.$route.params.problemID + '번' }}</p>
       </div>
