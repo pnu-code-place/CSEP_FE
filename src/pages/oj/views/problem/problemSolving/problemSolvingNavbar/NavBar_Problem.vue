@@ -2,7 +2,13 @@
   <div id="header">
     <Menu mode="horizontal" theme="primary" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
       <div class="logo" @click="handleRoute('/problem')">
-        <p class="pnuName">{{ this.$route.params.problemID + '번' }}</p>
+        <img class="solvingLogo" src="@/assets/pojLogo.png"/>
+        <template v-if="this.$route.name === 'problem-details'">
+          <p class="pnuName">{{ '문제 풀이' }}</p>
+        </template>
+        <template v-else>
+          <p class="pnuName">{{ '대회' }}</p>
+        </template>
       </div>
       <div style="display: flex; align-items: center; width: 200px;justify-content: right">
         <Tooltip :content="this.themeTooltipContent" placement="bottom"  style="margin-right: 15px">
@@ -113,14 +119,19 @@ export default {
 
   .logo {
     cursor: pointer;
-    width: 200px;
     display: flex;
     align-items: center;
     .pnuName{
-      font-size: 14px;
+      margin-left: 10px;
+      font-size: 16px;
       font-weight: bold;
     }
   }
+}
+
+.solvingLogo{
+  display: block;
+  width: 35px;
 }
 
 @avatar-radius: 50%;
