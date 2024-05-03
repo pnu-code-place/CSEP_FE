@@ -44,8 +44,8 @@
     <Pagination :total="total"
                 :page-size.sync="limit"
                 :current.sync="page"
-                @on-change="getContestRankData"
-                @on-page-size-change="getContestRankData(1)"
+                @on-change="updateContestData"
+                @on-page-size-change="updateContestData()"
                 show-sizer></Pagination>
   </div>
 </template>
@@ -197,29 +197,32 @@
     },
     mounted () {
       this.contestID = this.$route.params.contestID
-      this.getContestRankData()
-
-      let params = {
-        offset: (this.page - 1) * this.limit,
-        limit: this.limit,
-        contest_id: this.$route.params.contestID,
-        force_refresh: this.forceUpdate ? '1' : '0'
-      }
-      api.getContestRank(params).then(res => {
-        this.applyToTable(res.data.data.results)
-
-        const data = res.data.data.results
-        let dataRank = JSON.parse(JSON.stringify(data))
-
-        this.getContestProblems().then((res) => {
-          this.addRankData(dataRank, res.data.data)
-          this.addTableColumns(res.data.data)
-          this.addChartCategory(res.data.data)
-        })
-      })
+      this.updateContestData()
     },
     methods: {
       ...mapActions(['getContestProblems']),
+      updateContestData () {
+        let params = {
+          offset: (this.page - 1) * this.limit,
+          limit: this.limit,
+          contest_id: this.$route.params.contestID,
+          force_refresh: this.forceUpdate ? '1' : '0'
+        }
+        api.getContestRank(params).then(res => {
+          const data = res.data.data.results
+          let dataRank = JSON.parse(JSON.stringify(data))
+
+          if (this.page === 1) {
+            this.applyToChart(res.data.data.results.slice(0, 10))
+          }
+
+          this.getContestProblems().then((res) => {
+            this.addRankData(dataRank, res.data.data)
+            this.addChartCategory(res.data.data)
+          })
+          this.total = res.data.data.total
+        })
+      },
       addRankData (dataRank, problems) {
         problems.forEach(problem => {
           dataRank.forEach((rank, idx) => {
