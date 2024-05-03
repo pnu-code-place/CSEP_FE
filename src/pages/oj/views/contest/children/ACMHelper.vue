@@ -1,4 +1,15 @@
 <template>
+  <div>
+    <div class="ACMHelperBox">
+      <div class="ACMHelperTitle">
+        <p>{{ $t('m.ACM_Helper') }}</p>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          {{ $t('m.Auto_Refresh') }} (10s)
+          <i-switch style="margin-right: 10px;" @on-change="handleAutoRefresh"></i-switch>
+          <Button type="info" @click="getACInfo">{{$t('m.Refresh')}}</Button>
+        </div>
+      </div>
+    </div>
   <panel shadow>
     <div slot="title">{{$t('m.ACM_Helper')}}</div>
     <div slot="extra">
@@ -20,6 +31,7 @@
                 @on-page-size-change="handlePage(1)"
                 show-sizer></pagination>
   </panel>
+  </div>
 </template>
 <script>
   import { mapState, mapActions } from 'vuex'
@@ -229,6 +241,25 @@
     }
   }
 </script>
+
 <style lang="less" scoped>
+.ACMHelperBox {
+  border: 1px solid #e9ece9;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--box-background-color);
+  padding: 15px 20px;
+  border-radius: 7px;
+}
+.ACMHelperTitle {
+  display: flex;
+  justify-content: space-between;
+  p {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
 
 </style>
