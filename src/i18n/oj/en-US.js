@@ -171,6 +171,7 @@ export const m = {
   // ContestProblemList
   Problems_List: "문제",
   No_Problems: "등록된 문제가 없습니다.",
+  No_Submissions: "제출된 코드가 없습니다.",
   // CodeMirror.vue
   Language: "언어",
   Theme: "Theme",
