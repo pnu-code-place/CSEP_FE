@@ -308,7 +308,7 @@ export const m = {
   ID: "ID",
   Time: "Time",
   Memory: "메모리",
-  Author: "Author",
+  Author: "작성자",
   Option: "옵션",
   Check: "확인",
   Mine: "내 것",
