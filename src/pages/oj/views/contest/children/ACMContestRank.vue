@@ -36,7 +36,13 @@
             <td>{{rank.idx}}</td>
             <td><a @click="goUserPage(rank.user.username)">{{rank.user.username}}</a></td>
             <td>{{rank.accepted_number}}</td>
-            <td v-for="problem in contestProblems">{{ rank[problem.id].isSet ? rank[problem.id].ac_time : null }}</td>
+            <td v-for="problem in contestProblems">
+              <div v-if="rank[problem.id].isSet">
+                <span style="margin: 0px 2px 0px 0px; font-size: 10px; background-color: rgb(128, 128, 128); padding: 2px 4px; border-radius: 5px; color: white;">
+                  {{rank[problem.id].ac_time | localtime('MM/DD')}}</span>
+                {{rank[problem.id].ac_time | localtime('hh:mm:ss')}}
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -157,7 +163,7 @@
         dataRank.forEach((rank, i) => {
           let info = rank.submission_info
           Object.keys(info).forEach(problemID => {
-            dataRank[i][problemID].ac_time = time.secondFormat(info[problemID].ac_time)
+            dataRank[i][problemID].ac_time = moment(this.contest.start_time).add(info[problemID].ac_time, 'seconds').format()
             dataRank[i][problemID].isSet = true
           })
           dataRank[i].idx = (this.page - 1) * this.limit + i + 1;
