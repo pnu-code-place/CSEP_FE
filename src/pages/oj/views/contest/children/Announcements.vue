@@ -6,7 +6,7 @@
       <Button v-else type="ghost" icon="ios-undo" @click="goBack">{{ $t('m.Back') }}</Button>
     </div>
     <div v-if="listVisible">
-      <div v-if="!announcements.length" key="noAnnouncement">{{ $t('m.No_Announcements') }}</div>
+      <div v-if="!announcements.length" style="text-align: center; font-size: 16px;">{{ $t('m.No_Announcements') }}</div>
       <table v-else class="announcementTable">
         <thead>
           <th>{{ $t('m.ID') }}</th>
