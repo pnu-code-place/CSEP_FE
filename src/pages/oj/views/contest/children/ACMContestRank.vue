@@ -22,33 +22,28 @@
         </div>
       </div>
       <div v-if="!myDataRank.length" style="text-align: center; font-size: 16px;">{{$t('m.No_Submissions')}}</div>
-      <template v-else>
-        <div v-show="showChart">
-          <ECharts :options="options" ref="chart" auto-resize></ECharts>
-        </div>
-        <table class="ACMRankContent">
-          <thead>
-            <th style="width: 50px;">#</th>
-            <th>{{ $t('m.User_User') }}</th>
-            <th>{{ $t('m.Solved_Problems') }}</th>
-            <th v-for="problem in contestProblems"><a style="color: #6CCBFF;" @click="goProblemPage(problem._id)">{{problem._id}}</a></th>
-          </thead>
-          <tbody>
-            <tr v-for="rank in myDataRank">
-              <td>{{rank.idx}}</td>
-              <td><a @click="goUserPage(rank.user.username)">{{rank.user.username}}</a></td>
-              <td>{{rank.accepted_number}}</td>
-              <td v-for="problem in contestProblems">
-                <div v-if="rank[problem.id].isSet">
-                  <span style="margin: 0px 2px 0px 0px; font-size: 10px; background-color: rgb(128, 128, 128); padding: 2px 4px; border-radius: 5px; color: white;">
-                    {{rank[problem.id].ac_time | localtime('MM/DD')}}</span>
-                  {{rank[problem.id].ac_time | localtime('hh:mm:ss')}}
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </template>
+      <table v-else class="ACMRankContent">
+        <thead>
+          <th style="width: 50px;">#</th>
+          <th>{{ $t('m.User_User') }}</th>
+          <th>{{ $t('m.Solved_Problems') }}</th>
+          <th v-for="problem in contestProblems"><a style="color: #6CCBFF;" @click="goProblemPage(problem._id)">{{problem._id}}</a></th>
+        </thead>
+        <tbody>
+          <tr v-for="rank in myDataRank">
+            <td>{{rank.idx}}</td>
+            <td><a @click="goUserPage(rank.user.username)">{{rank.user.username}}</a></td>
+            <td>{{rank.accepted_number}}</td>
+            <td v-for="problem in contestProblems">
+              <div v-if="rank[problem.id].isSet">
+                <span style="margin: 0px 2px 0px 0px; font-size: 10px; background-color: rgb(128, 128, 128); padding: 2px 4px; border-radius: 5px; color: white;">
+                  {{rank[problem.id].ac_time | localtime('MM/DD')}}</span>
+                {{rank[problem.id].ac_time | localtime('hh:mm:ss')}}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <Pagination :total="total"
                 :page-size.sync="limit"
@@ -278,11 +273,6 @@
   tr {
     font-size: 1.05em;
   }
-}
-.echarts {
-  margin: 20px auto;
-  height: 400px;
-  width: 98%;
 }
 #switches {
   p {
