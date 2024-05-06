@@ -9,16 +9,14 @@
     </header>
     <div class="problemRecommendationBoxBody">
       <template v-for="(problem, index) in problems" v-if="index <= 2">
-<!--        <ShineWrapper>-->
-          <div @click="enterProblemDetail(problem.id)" class="bonusProblem" :style="{ 'background-image': 'url(' + FIELD_MAP[problem.field].backgroundImage + ')' }">
-            <span>{{problem.title}}</span>
-            <FieldCategoryBox :boxType="true" :value="FIELD_MAP[problem.field].value"
-                              :boxColor="FIELD_MAP[problem.field].boxColor"/>
-            <template v-for="(category, idx) in [problem.tags[0]]">
-              <FieldCategoryBox :boxType="false" :value="'#' + category" :boxColor="'#ffffff'"/>
-            </template>
-          </div>
-<!--        </ShineWrapper>-->
+        <div @click="enterProblemDetail(problem._id)" class="bonusProblem" :style="{ 'background-image': 'url(' + FIELD_MAP[problem.field].backgroundImage + ')' }">
+          <span>{{problem.title}}</span>
+          <FieldCategoryBox :boxType="true" :value="FIELD_MAP[problem.field].value"
+                            :boxColor="FIELD_MAP[problem.field].boxColor"/>
+          <template v-for="(category, idx) in [problem.tags[0]]">
+            <FieldCategoryBox :boxType="false" :value="'#' + category" :boxColor="'#ffffff'"/>
+          </template>
+        </div>
       </template>
     </div>
   </div>
