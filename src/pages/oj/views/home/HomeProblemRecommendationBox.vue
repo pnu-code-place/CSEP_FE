@@ -1,10 +1,10 @@
 <template>
   <div class="problemRecommendationBox">
     <header class="problemRecommendationBoxHeader">
-      <span @click="handleRoute('problem')">이번 주 보너스 문제</span>
+      <span @click="handleRoute('problem')">{{$t('m.HomeProblemRecommendation')}}</span>
       <div class="plusDiv">
         <Icon type="ios-information" size="13" color="#7a7a7a"></Icon>
-        <span class="plusSpan">주마다 보너스 점수(x2)가 있는 문제를 추천해드려요!</span>
+        <span class="plusSpan">{{$t('m.HomeProblemRecommendation_Info')}}</span>
       </div>
     </header>
     <div class="problemRecommendationBoxBody">
