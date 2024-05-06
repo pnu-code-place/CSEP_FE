@@ -105,6 +105,10 @@ export default {
     span{
       font-size: medium;
       font-weight: bold;
+      display: block;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
     .bonusProblem{
       cursor: pointer;
