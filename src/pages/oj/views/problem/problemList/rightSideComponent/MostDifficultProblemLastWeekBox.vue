@@ -16,32 +16,32 @@
         </div>
         <div class="hardProblemFieldCategory" style="justify-content: space-between; margin-top: 2px">
           <span style="font-weight: bold;font-size: medium"> {{ problem.title }} </span>
-          <a style="color: #7a7a7a; text-decoration: underline" @click="enterProblemDetail(problem._id)">{{ $t('m.Try_AiRecommendation_Problem') }}</a>
+          <a style="color: #7a7a7a; text-decoration: underline" @click="enterProblemDetail(problem._id)">{{ $t('m.Try_Most_Hard_Problem_In_Last_Week') }}</a>
         </div>
         <div class="hardProblemInfo" style="margin-top: 15px">
           <div style="display: flex; justify-content: space-between; width: 50%; float: right">
-            <span>정답률</span>
+            <span>{{ $t('m.Th_Problem_AC_Rate') }}</span>
             <span>{{ problem.submission_number == 0 ? "없음" : (problem.accepted_number / problem.submission_number ) * 100 + '%' }}</span>
           </div>
         </div>
         <br>
         <div class="hardProblemInfo" style="margin-top: 5px">
           <div style="display: flex; justify-content: space-between; width: 50%; float: right">
-            <span>완료한 사람</span>
+            <span>{{ $t('m.Th_Problem_Num_Success') }}</span>
             <span>{{problem.accepted_number}}명</span>
           </div>
         </div>
         <br>
         <div class="hardProblemInfo" style="margin-top: 5px; margin-bottom: 20px">
           <div style="display: flex; justify-content: space-between; width: 50%; float: right">
-            <span>난이도</span>
+            <span>{{ $t('m.Th_Problem_Difficulty') }}</span>
             <span style="color: #c02b2b; font-weight: bolder">{{ DIFFICULTY_MAP[problem.difficulty].value }}</span>
           </div>
         </div>
       </template>
       <template v-else>
         <div style="height:100%; display: flex; align-items: center; justify-content: center">
-          표시할 데이터가 충분하지 않습니다.
+          {{ $t('m.There_Is_No_Data') }}
         </div>
       </template>
     </div>
