@@ -74,9 +74,9 @@ export const m = {
   save_as_image: "save as image",
   // ACMHelper.vue
   ACM_Helper: "ACM Helper",
-  AC_Time: "AC Time",
+  AC_Time: "문제 해결 시간",
   ProblemID: "ProblemID",
-  First_Blood: "First Blood",
+  First_Blood: "처음 해결",
   Username: "Username",
   Checked: "Checked",
   Not_Checked: "Not Checked",
@@ -258,6 +258,9 @@ export const m = {
   Try_AiRecommendation_Problem: "도전하기",
   Most_Hard_Problem_In_Last_Week: "저번 주에 가장 어려웠어요!",
   Try_Most_Hard_Problem_In_Last_Week: "풀어보기",
+  //HomeProblemRecommendationBox.vue
+  HomeProblemRecommendation: "이주의 보너스 문제",
+  HomeProblemRecommendation_Info: "주마다 보너스 점수(x2)가 있는 문제를 추천해드려요!",
   //문제 리스트의 난이도
   Difficulty: "난이도",
   Category: "태그",
@@ -309,8 +312,9 @@ export const m = {
   ID: "ID",
   Time: "Time",
   Memory: "메모리",
-  Author: "Author",
-  Option: "Option",
+  Author: "작성자",
+  Option: "옵션",
+  Check: "확인",
   Mine: "내 것",
   Submission_Table_Author: "제출자",
   Accepted: "Accepted",
