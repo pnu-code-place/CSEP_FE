@@ -35,10 +35,10 @@
             <td><a @click="goUserPage(rank.user.username)">{{rank.user.username}}</a></td>
             <td>{{rank.accepted_number}}</td>
             <td v-for="problem in contestProblems">
-              <div v-if="rank[problem.id].isSet">
-                <span style="margin: 0px 2px 0px 0px; font-size: 10px; background-color: rgb(128, 128, 128); padding: 2px 4px; border-radius: 5px; color: white;">
+              <div v-if="rank[problem.id].isSet" style="display: flex; flex-direction: column; align-items: center;">
+                <span style="font-size: 12px; background-color: rgb(128, 128, 128); padding: 2px 4px; border-radius: 5px; color: white;">
                   {{rank[problem.id].ac_time | localtime('MM/DD')}}</span>
-                {{rank[problem.id].ac_time | localtime('hh:mm:ss')}}
+                {{rank[problem.id].ac_time | localtime('HH:mm:ss')}}
               </div>
             </td>
           </tr>
