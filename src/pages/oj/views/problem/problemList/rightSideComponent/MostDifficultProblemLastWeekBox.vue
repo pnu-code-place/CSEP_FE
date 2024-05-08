@@ -57,15 +57,13 @@ import {DIFFICULTY_MAP, FIELD_MAP} from "../../../../../../utils/constants";
 export default {
   name: 'MostDifficultProblemLastWeekBox',
   components: {FieldCategoryBox},
-  props:{
-    problem:{
-      type: Object
-    }
-  },
   data () {
     return {
-
+      problem: null
     }
+  },
+  mounted() {
+    this.init()
   },
   methods:{
     ...mapActions(['getProfile', 'changeModalStatus','changeProblemSolvingState']),
@@ -73,6 +71,12 @@ export default {
       this.changeProblemSolvingState(true)
       this.$router.push({name: 'problem-details', params: {problemID: problemId}})
     },
+    init(){
+      api.getMostDifficultProblem()
+        .then((res) =>{
+          this.problem = res.data.data
+        })
+    }
   },
   computed:{
     FIELD_MAP() {
