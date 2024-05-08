@@ -31,7 +31,7 @@
             </li>
 
             <li>
-              <Button class="refresh-button" icon="refresh" @click="getSubmissions">{{ $t('m.Refresh') }}</Button>
+              <Button type="info" icon="refresh" @click="getSubmissions">{{ $t('m.Refresh') }}</Button>
             </li>
           </ul>
         </div>
@@ -351,10 +351,5 @@ export default {
     flex: none;
     width: 210px;
   }
-}
-
-.refresh-button {
-  background-color : #32306b;
-  color: white;
 }
 </style>
