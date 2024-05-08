@@ -5,23 +5,10 @@
         <p>{{ $t('m.Rank') }}</p>
         <div class="ACMRankTitleIcon">
           <screen-full style="height: 18px; width: 18px;"></screen-full>
-          <Poptip trigger="hover" placement="left-start">
-            <Icon type="android-settings" size="21"></Icon>
-            <div slot="content" id="switches" style="display: flex; flex-direction: column; gap: 10px;">
-              <span style="width: full; display: flex; justify-content: space-between; align-items: center;">
-                <span>{{$t('m.Chart')}}</span>
-                <i-switch v-model="showChart"></i-switch>
-              </span>
-              <span v-if="isContestAdmin" style="display: flex; justify-content: space-between; gap: 10px; align-items: center;">
-                <span>{{$t('m.RealName')}}</span>
-                <i-switch v-model="showRealName"></i-switch>
-              </span>
-              <Button type="primary" size="small" @click="downloadRankCSV">{{$t('m.download_csv')}}</Button>
-            </div>
-          </Poptip>
+          <Button v-if="isContestAdmin" size="small" @click="downloadRankCSV">{{$t('m.download_csv')}}</Button>
         </div>
       </div>
-      <div v-if="!myDataRank.length" style="text-align: center; font-size: 16px;">{{$t('m.No_Submissions')}}</div>
+      <div v-if="!dataRank.length" style="text-align: center; font-size: 16px;">{{$t('m.No_Submissions')}}</div>
       <table v-else class="ACMRankContent">
         <thead>
           <th style="width: 50px;">#</th>
@@ -30,7 +17,7 @@
           <th v-for="problem in contestProblems"><a style="color: #6CCBFF;" @click="goProblemPage(problem._id)">{{problem._id}}</a></th>
         </thead>
         <tbody>
-          <tr v-for="rank in myDataRank">
+          <tr v-for="rank in dataRank">
             <td>{{rank.idx}}</td>
             <td><a @click="goUserPage(rank.user.username)">{{rank.user.username}}</a></td>
             <td>{{rank.accepted_number}}</td>
@@ -74,54 +61,7 @@
         total: 0,
         page: 1,
         contestID: '',
-        myDataRank: [],
-        options: {
-          title: {
-            text: this.$i18n.t('m.Top_10_Teams'),
-            left: 'center'
-          },
-          toolbox: {
-            show: true,
-            feature: {
-              saveAsImage: {show: true, title: this.$i18n.t('m.save_as_image')}
-            },
-            right: '5%'
-          },
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'cross',
-              axis: 'x'
-            }
-          },
-          legend: {
-            orient: 'vertical',
-            y: 'center',
-            right: 0,
-            formatter: (value) => {
-              return utils.breakLongWords(value, 16)
-            },
-          },
-          grid: {
-            x: 80,
-            x2: 200
-          },
-          xAxis: [{
-            type: 'time',
-            splitLine: false,
-            axisPointer: {
-              show: true,
-              snap: true
-            }
-          }],
-          yAxis: [
-            {
-              type: 'category',
-              boundaryGap: false,
-              data: [0]
-            }],
-          series: []
-        }
+        dataRank: [],
       }
     },
     mounted () {
@@ -141,13 +81,8 @@
           const data = res.data.data.results
           let dataRank = JSON.parse(JSON.stringify(data))
 
-          if (this.page === 1) {
-            this.applyToChart(res.data.data.results.slice(0, 10))
-          }
-
           this.getContestProblems().then((res) => {
             this.addRankData(dataRank, res.data.data)
-            this.addChartCategory(res.data.data)
           })
           this.total = res.data.data.total
         })
@@ -166,45 +101,7 @@
           })
           dataRank[i].idx = (this.page - 1) * this.limit + i + 1;
         })
-        this.myDataRank = dataRank;
-      },
-      addChartCategory (contestProblems) {
-        let category = []
-        for (let i = 0; i <= contestProblems.length; ++i) {
-          category.push(i)
-        }
-        this.options.yAxis[0].data = category
-      },
-      applyToChart (rankData) {
-        let [users, seriesData] = [[], []]
-        rankData.forEach(rank => {
-          users.push(rank.user.username)
-          let info = rank.submission_info
-          let timeData = []
-          Object.keys(info).forEach(problemID => {
-            if (info[problemID].is_ac) {
-              timeData.push(info[problemID].ac_time)
-            }
-          })
-          timeData.sort((a, b) => {
-            return a - b
-          })
-
-          let data = []
-          data.push([this.contest.start_time, 0])
-          // index here can be regarded as stacked accepted number count.
-          for (let [index, value] of timeData.entries()) {
-            let realTime = moment(this.contest.start_time).add(value, 'seconds').format()
-            data.push([realTime, index + 1])
-          }
-          seriesData.push({
-            name: rank.user.username,
-            type: 'line',
-            data
-          })
-        })
-        this.options.legend.data = users
-        this.options.series = seriesData
+        this.dataRank = dataRank;
       },
       goUserPage (username) {
         this.$router.push({
@@ -220,10 +117,6 @@
             problemID: problemId
           }
         })
-      },
-      parseTotalTime (totalTime) {
-        let m = moment.duration(totalTime, 's')
-        return [Math.floor(m.asHours()), m.minutes(), m.seconds()].join(':')
       },
       downloadRankCSV () {
         utils.downloadFile(`contest_rank?download_csv=1&contest_id=${this.$route.params.contestID}&force_refrash=${this.forceUpdate ? '1' : '0'}`)
@@ -253,7 +146,7 @@
   }
   .ACMRankTitleIcon {
     display: flex;
-    width: 45px;
+    gap: 10px;
     justify-content: space-between;
     align-items: center;
   }
@@ -272,17 +165,6 @@
   }
   tr {
     font-size: 1.05em;
-  }
-}
-#switches {
-  p {
-    margin-top: 5px;
-    &:first-child {
-      margin-top: 0;
-    }
-    span {
-      margin-left: 8px;
-    }
   }
 }
 </style>
