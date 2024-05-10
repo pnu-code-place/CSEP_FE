@@ -25,16 +25,12 @@ export default {
 .bannerBox {
   border-radius: 7px;
   margin-bottom: 20px;
+  overflow: hidden;
   .demo-carousel {
-    cursor: pointer;
     border-radius: 7px;
     width: 100%;
     height: 150px;
-    line-height: 150px;
     border: 1px solid #dedede;
-    text-align: center;
-    background-color: #ffffff;
-    font-size: 20px;
   }
 }
 </style>
