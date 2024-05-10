@@ -61,9 +61,6 @@
       margin: 20px 0;
       text-align: center;
       img {
-        background-color: #fff;
-        border-radius: 50%;
-        border: 3px solid #fff;
         width: 75px;
         height: 75px;
       }
