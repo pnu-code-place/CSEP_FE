@@ -183,8 +183,6 @@ import {
 } from "@/utils/constants";
 import CustomDropDown from "../../components/dropdown/CustomDropdown.vue";
 
-const limit = 10;
-
 export default {
   name: "contest-list",
   components: {
@@ -193,13 +191,11 @@ export default {
   },
   data() {
     return {
-      page: 1,
       query: {
         status: "",
         keyword: "",
         rule_type: "",
       },
-      limit: limit,
       total: 0,
       rows: "",
       contests: [],
@@ -211,7 +207,7 @@ export default {
     };
   },
   beforeRouteEnter(to, from, next) {
-    api.getContestList(0, limit).then(
+    api.getContestList(0, 10000).then(
       (res) => {
         next((vm) => {
           vm.contests = res.data.data.results;
@@ -238,20 +234,9 @@ export default {
       this.query.status = route.status || "";
       this.query.rule_type = route.rule_type || "";
       this.query.keyword = route.keyword || "";
-      this.page = parseInt(route.page) || 1;
-      this.limit = parseInt(route.limit) || 10;
-      this.getContestList(this.page);
-    },
-    getContestList(page = 1) {
-      let offset = (page - 1) * this.limit;
-      api.getContestList(offset, this.limit, this.query).then((res) => {
-        this.total = res.data.data.total;
-      });
     },
     changeRoute() {
       let query = Object.assign({}, this.query);
-      query.page = this.page;
-      query.limit = this.limit;
 
       this.$router.push({
         name: "contest-list",
@@ -260,12 +245,6 @@ export default {
     },
     onRuleChange(rule) {
       this.query.rule_type = rule;
-      this.page = 1;
-      this.changeRoute();
-    },
-    onStatusChange(status) {
-      this.query.status = status;
-      this.page = 1;
       this.changeRoute();
     },
     goContest(contest) {
@@ -325,6 +304,7 @@ export default {
   },
 };
 </script>
+
 <style lang="less" scoped>
 main {
   width: 1200px;
@@ -368,6 +348,7 @@ main {
       border-radius: var(--container-border-radius);
     }
   }
+
   .search-input-wrapper {
     width: 200px;
     height: 35px;
@@ -447,78 +428,6 @@ main {
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 1;
       }
-    }
-  }
-
-  #contest-card {
-    background-color: var(--box-background-color);
-    #keyword {
-      width: 80%;
-      margin-right: 30px;
-    }
-    #no-contest {
-      text-align: center;
-      font-size: 16px;
-      padding: 20px;
-    }
-  }
-  .contestLayer {
-    margin-top: 10px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    align-items: center;
-    gap: 10px;
-  }
-  .contestBox {
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 20px;
-    width: 393px;
-    border-radius: 7px;
-    border: 1px solid #e9ece9;
-    background-color: var(--box-background-color);
-  }
-  .contestTitle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    p {
-      padding-left: 2px;
-      font-size: 18px;
-      font-weight: bold;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    p:hover {
-      white-space: wrap;
-    }
-  }
-  .contestContent {
-    /* margin: 0px 0px 6px 6px; */
-    /* width: 280px; */
-
-    /* height: 18px; */
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-  }
-  .contestFooter {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    li {
-      display: inline-block;
-    }
-    .contestTag {
-      background-color: #f7f7f7;
-      border: 1px solid #dddee1;
-      border-radius: 32px;
-      padding: 2px 7px;
     }
   }
 }
