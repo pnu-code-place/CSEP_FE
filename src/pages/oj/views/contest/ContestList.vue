@@ -80,8 +80,10 @@
 
     <div class="session-title-wrapper">
       <span class="session-title">{{ $t("m.Ended_Contest") }}</span>
-      <!-- TODO: 클릭 시 전체 히스토리로 이동하도록 수정. -->
-      <span style="font-size: 15px">
+      <span
+        style="font-size: 15px; cursor: pointer"
+        @click="goContestHistory()"
+      >
         {{ $t("m.History_Of_Contest") }}
         <Icon type="arrow-right-b"></Icon>
       </span>
@@ -261,6 +263,11 @@ export default {
           params: { contestID: contest.id },
         });
       }
+    },
+    goContestHistory() {
+      this.$router.push({
+        name: "contest-history-list",
+      });
     },
     dateFormat(date) {
       const formattedDate = new Date(date);
