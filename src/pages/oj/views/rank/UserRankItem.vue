@@ -20,6 +20,7 @@ export default {
           score: 0,
           solved: 0,
           accuracy: 0.0,
+          growth : 0
         }
       }
     }
@@ -30,6 +31,12 @@ export default {
     },
     accuracy() {
       return (this.user.accuracy * 100).toFixed(1) + '%'
+    },
+    growth() {
+      if (this.user.growth == 0) {
+        return "-"
+      }
+      return "▲" + comma(this.user.growth)
     }
   }
 }
@@ -55,7 +62,7 @@ export default {
     <td>
       <div class="user-score">
         <span class="user-score__score">{{ comma(user.score) }}</span>
-        <span class="user-score__growth">{{user.growth===0? "-":"▲"}}{{ comma(user.growth) }}</span>
+        <span class="user-score__growth">{{ this.growth}}</span>
       </div>
     </td>
     <td class="user-problem">
