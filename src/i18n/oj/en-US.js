@@ -94,6 +94,7 @@ export const m = {
   TOP_1: "1등",
   TOP_2: "2등",
   TOP_3: "3등",
+  People: "명",
   // Announcements.vue
   Contest_Announcements: "대회 공지사항",
   By: "By",

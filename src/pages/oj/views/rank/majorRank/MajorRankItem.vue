@@ -30,10 +30,10 @@ export default {
 <template>
   <div class="major-rank-item">
     <div class="major-info" @click="toggleExtended">
-      <div class="rank">{{ major.rank }}</div>
+      <div class="rank">{{ major.rank }}{{$t("m.Th")}}</div>
       <div class="major">{{ major.major }}</div>
-      <div class="score">{{ comma(major.score) }}</div>
-      <div class="people">{{ comma(major.people.length) }}</div>
+      <div class="score">{{ comma(major.score) }}{{$t("m.Points")}}</div>
+      <div class="people">{{ comma(major.people.length) }}{{$t("m.People")}}</div>
     </div>
     <transition>
       <div class="major-people" v-if="isExtended">

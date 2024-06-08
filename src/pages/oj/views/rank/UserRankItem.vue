@@ -44,7 +44,7 @@ export default {
 
 <template>
   <tr>
-    <td>{{ user.rank }}</td>
+    <td>{{ user.rank }}{{ $t("m.Th")}}</td>
     <td class="user-info">
       <router-link :to="{name: 'user-home', params: {username :user.username}}">
         <img class='avatar' :src="user.avatar" alt="avatar">
@@ -61,7 +61,7 @@ export default {
     </td>
     <td>
       <div class="user-score">
-        <span class="user-score__score">{{ comma(user.score) }}</span>
+        <span class="user-score__score">{{ comma(user.score) }}{{ $t("m.Point")}}</span>
         <span class="user-score__growth">{{ this.growth}}</span>
       </div>
     </td>
