@@ -103,7 +103,6 @@ export default {
   --header-height: 70px;
   --header-margin: 20px;
   /* footer */
-  --footer-text-color: #ababab;
   --footer-height: 200px;
   --footer-margin: 80px;
 

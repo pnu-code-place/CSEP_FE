@@ -59,6 +59,7 @@ footer {
   justify-content: end;
   align-items: center;
   padding: 20px 0;
+  --footer-text-color: #ababab;
 
   .footer-contents {
     width: var(--global-width);
