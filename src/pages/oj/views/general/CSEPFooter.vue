@@ -3,6 +3,8 @@ export default {
   data() {
     return {
       version: process.env.VERSION,
+      github_icon: require('@/assets/github.png'),
+      github_url: "https://github.com/PNU-CSEP"
     };
   },
 }
@@ -37,7 +39,13 @@ export default {
           </p>
         </div>
         <div class="right">
-          <p>{{$t("m.UserGuide")}}</p>
+          <p>
+            <a :href="this.github_url">
+              <img class="github-icon" :src="this.github_icon" alt="github icon">
+              개발진
+            </a>
+          </p>
+          <p>{{ $t("m.UserGuide") }}</p>
         </div>
       </div>
     </div>
@@ -45,10 +53,16 @@ export default {
 </template>
 
 <style scoped lang="less">
+
+.github-icon {
+  width: 18px;
+  height: 18px;
+}
+
 footer {
   position: absolute;
   bottom: 0;
-  width:100vw;
+  width: 100vw;
   min-width: var(--global-width);
   height: var(--footer-height);
   background-color: var(--box-background-color);
@@ -64,6 +78,7 @@ footer {
   .footer-contents {
     width: var(--global-width);
     margin: auto;
+
     .row1 {
       display: flex;
       justify-content: space-between;
@@ -74,9 +89,10 @@ footer {
       }
 
       .family-site {
-        display : flex;
+        display: flex;
         justify-content: end;
         gap: 10px;
+
         a {
           color: var(--footer-text-color);
         }
@@ -96,10 +112,24 @@ footer {
           font-weight: bold;
         }
       }
+
       .right {
         display: flex;
         flex-direction: column;
         justify-content: end;
+
+        p {
+          display: flex;
+          justify-content: end;
+
+          a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--footer-text-color);
+            gap:5px;
+          }
+        }
       }
     }
   }
