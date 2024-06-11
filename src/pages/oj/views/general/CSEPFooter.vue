@@ -78,7 +78,6 @@ footer {
   .footer-contents {
     width: var(--global-width);
     margin: auto;
-
     .row1 {
       display: flex;
       justify-content: space-between;
@@ -92,7 +91,6 @@ footer {
         display: flex;
         justify-content: end;
         gap: 10px;
-
         a {
           color: var(--footer-text-color);
         }
@@ -112,7 +110,6 @@ footer {
           font-weight: bold;
         }
       }
-
       .right {
         display: flex;
         flex-direction: column;
