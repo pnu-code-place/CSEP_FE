@@ -176,21 +176,15 @@
 import api from "@oj/api";
 import { mapGetters } from "vuex";
 import utils from "@/utils/utils";
-import Pagination from "@/pages/oj/components/Pagination";
 import time from "@/utils/time";
 import {
   CONTEST_STATUS,
   CONTEST_STATUS_REVERSE,
   CONTEST_TYPE,
 } from "@/utils/constants";
-import CustomDropDown from "../../components/dropdown/CustomDropdown.vue";
 
 export default {
   name: "contest-list",
-  components: {
-    Pagination,
-    CustomDropDown,
-  },
   data() {
     return {
       query: {
@@ -236,7 +230,7 @@ export default {
       this.query.status = route.status || "";
       this.query.rule_type = route.rule_type || "";
       this.query.keyword = route.keyword || "";
-      this.getContestList(this.page);
+      this.getContestList();
     },
     getContestList(page = 1) {
       api.getContestList(0, 10000, this.query).then((res) => {
