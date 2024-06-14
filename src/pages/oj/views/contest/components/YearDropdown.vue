@@ -22,8 +22,11 @@ export default {
   },
   methods: {
     onYearChangeEventEmit(year) {
-      let yearFormat = new Date().getFullYear() - parseInt(year);
-      this.$emit("onYearChange", yearFormat.toString());
+      if (year === "") this.$emit("onYearChange", year);
+      else {
+        let yearFormat = new Date().getFullYear() - parseInt(year);
+        this.$emit("onYearChange", yearFormat.toString());
+      }
     },
   },
 };
