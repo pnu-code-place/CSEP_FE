@@ -18,21 +18,7 @@
             <Dropdown-item name="ACM">{{ $t("m.ACM") }}</Dropdown-item>
           </Dropdown-menu>
         </Dropdown>
-        <div class="search-input-wrapper">
-          <input
-            id="keyword"
-            class="search-input"
-            @keyup.enter="changeRoute"
-            v-model="query.keyword"
-            :placeholder="$t('m.Contest_Search_Keyword')"
-          />
-          <button class="search-input-icon" @click="changeRoute">
-            <Icon type="ios-search-strong"></Icon>
-          </button>
-        </div>
-        <button class="search-button" @click="changeRoute">
-          {{ $t("m.Search") }}
-        </button>
+        <SearchKeyword @onKeywordChange="onKeywordChange" />
       </div>
     </div>
     <div v-if="underway_contests.length === 0" class="session-not-exist">
@@ -182,9 +168,13 @@ import {
   CONTEST_STATUS_REVERSE,
   CONTEST_TYPE,
 } from "@/utils/constants";
+import SearchKeyword from "./components/SearchKeyword";
 
 export default {
   name: "contest-list",
+  components: {
+    SearchKeyword,
+  },
   data() {
     return {
       query: {
@@ -250,6 +240,10 @@ export default {
     },
     onRuleChange(rule) {
       this.query.rule_type = rule;
+      this.changeRoute();
+    },
+    onKeywordChange(keyword) {
+      this.query.keyword = keyword;
       this.changeRoute();
     },
     goContest(contest) {
@@ -357,35 +351,6 @@ main {
       border: 1px solid var(--container-border-color);
       border-radius: var(--container-border-radius);
     }
-  }
-
-  .search-input-wrapper {
-    width: 200px;
-    height: 35px;
-    font-size: 14px;
-    padding: 5px 10px;
-    background-color: white;
-    border: 1px solid var(--container-border-color);
-    border-radius: var(--container-border-radius);
-    .search-input {
-      width: 90%;
-      height: 100%;
-      border: none;
-      outline: none;
-    }
-    .search-input-icon {
-      background-color: transparent;
-      border: none;
-      font-size: 15px;
-    }
-  }
-  .search-button {
-    width: 45px;
-    height: 35px;
-    border-radius: var(--container-border-radius);
-    font-size: 13px;
-    color: white;
-    background-color: var(--point-color);
   }
 
   .contest-table {
