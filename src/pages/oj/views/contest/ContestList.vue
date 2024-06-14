@@ -193,7 +193,7 @@ export default {
     };
   },
   beforeRouteEnter(to, from, next) {
-    api.getContestList(0, 10000).then(
+    api.getContestList(0, 250).then(
       (res) => {
         next((vm) => {
           vm.contests = res.data.data.results;
