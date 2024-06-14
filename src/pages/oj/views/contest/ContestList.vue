@@ -236,6 +236,15 @@ export default {
       this.query.status = route.status || "";
       this.query.rule_type = route.rule_type || "";
       this.query.keyword = route.keyword || "";
+      this.getContestList(this.page);
+    },
+    getContestList(page = 1) {
+      api.getContestList(0, 10000, this.query).then((res) => {
+        this.underway_contests = res.data.data.results.filter(
+          (item) => item.status === CONTEST_STATUS.UNDERWAY
+        );
+        this.total = res.data.data.total;
+      });
     },
     changeRoute() {
       let query = Object.assign({}, this.query);
