@@ -1,11 +1,7 @@
 <template>
   <Dropdown class="dropdown" @on-click="onYearChangeEventEmit">
     <span>
-      {{
-        year === ""
-          ? this.$i18n.t("m.Execute_Year")
-          : new Date().getFullYear() - parseInt(year) + "년"
-      }}
+      {{ year === "" ? this.$i18n.t("m.Execute_Year") : year + "년" }}
       <Icon type="arrow-down-b"></Icon>
     </span>
     <Dropdown-menu slot="list">
@@ -26,7 +22,8 @@ export default {
   },
   methods: {
     onYearChangeEventEmit(year) {
-      this.$emit("onYearChange", year);
+      let yearFormat = new Date().getFullYear() - parseInt(year);
+      this.$emit("onYearChange", yearFormat.toString());
     },
   },
 };
