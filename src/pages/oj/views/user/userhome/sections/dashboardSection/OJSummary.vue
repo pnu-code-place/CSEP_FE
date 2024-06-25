@@ -59,7 +59,7 @@ export default {
         <span class="progress-info">
           {{ comma(ojStatus.total_score) }} / {{ comma(ojStatus.next_tier_score) }}
         </span>
-        <div class="flip-front">
+        <div class="gauge-wrapper">
           <horizontal-gauge :progress="gaugeWidth"></horizontal-gauge>
         </div>
         <span class="progress-next">
@@ -150,7 +150,7 @@ export default {
         }
       }
 
-      .flip-front {
+      .gauge-wrapper {
         width: 100%;
         height: 8px;
       }
