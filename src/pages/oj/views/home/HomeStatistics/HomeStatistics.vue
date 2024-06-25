@@ -11,7 +11,7 @@ export default {
   data() {
     return {
       languages: LANGUAGE_INFO,
-      languageIndex: -1,
+      languageIndex: 0,
       statIndex: -1,
       statistics: {
         totalProblems: 512,
