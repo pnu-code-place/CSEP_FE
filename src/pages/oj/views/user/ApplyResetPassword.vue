@@ -14,7 +14,7 @@
               </Input>
             </div>
             <div class="oj-captcha-img">
-              <Tooltip content="Click to refresh" placement="top">
+              <Tooltip :content="$t('m.Click_To_Refresh')" placement="top">
                 <img :src="captchaSrc" @click="getCaptchaSrc"/>
               </Tooltip>
             </div>
@@ -102,6 +102,7 @@
   .container {
     width: 450px;
     margin: auto;
+    border-radius: 20px;
     .center {
       text-align: center;
     }
