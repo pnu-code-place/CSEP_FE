@@ -7,7 +7,7 @@
         <span>{{ $t('m.More_Home_Ranking') }}</span>
       </div>
     </div>
-랴    <div class="rankingBoxBody">
+      <div class="rankingBoxBody">
       <template v-if="this.rankingItems.length <= 1">
         <div class="noData">
           {{ $t('m.No_Sufficient_Data_Home_Ranking') }}
