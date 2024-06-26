@@ -1,24 +1,26 @@
 <template>
   <div class="rankingBox">
     <div class="rankingBoxHeader">
-      <span>실시간 랭킹 <span class="gradientSpan">TOP 3</span></span>
+      <span>{{ $t('m.Title_Home_Ranking') }} <span class="gradientSpan">{{ $t('m.Top_Three_Home_Ranking') }}</span></span>
       <div class="plusDiv" @click="handleRoute('acm-rank')" v-if="this.rankingItems.length >= 3">
         <Icon type="android-add" size="13" color="#7a7a7a"></Icon>
-        <span>더보기</span>
+        <span>{{ $t('m.More_Home_Ranking') }}</span>
       </div>
     </div>
     <div style="padding: 10px; height: 100%">
       <template v-if="this.rankingItems.length <= 1">
         <div style="text-align: center; height: 80%; display: flex; align-items: center; justify-content: center">
           표시할 데이터가 충분하지 않습니다.
+          {{ $t('m.No_Sufficient_Data_Home_Ranking') }}
         </div>
       </template>
       <template v-else>
         <table>
           <tr>
-            <th class="rank">티어</th>
-            <th class="name">이름</th>
-            <th class="score">{{ $t('m.Total_Score') }}</th>
+            <th class="idx">{{ $t('m.Rank_Home_Ranking') }}</th>
+            <th class="name">{{ $t('m.User_Home_Ranking') }}</th>
+            <th class="tier">{{ $t('m.Tier_Home_Ranking') }}</th>
+            <th class="score">{{ $t('m.Total_Score_Home_Ranking') }}</th>
           </tr>
           <tbody>
           <tr v-for="(user, index) in this.rankingItems" :key="index" v-if="index <= 2">
