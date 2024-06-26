@@ -7,10 +7,9 @@
         <span>{{ $t('m.More_Home_Ranking') }}</span>
       </div>
     </div>
-    <div style="padding: 10px; height: 100%">
+랴    <div class="rankingBoxBody">
       <template v-if="this.rankingItems.length <= 1">
-        <div style="text-align: center; height: 80%; display: flex; align-items: center; justify-content: center">
-          표시할 데이터가 충분하지 않습니다.
+        <div class="noData">
           {{ $t('m.No_Sufficient_Data_Home_Ranking') }}
         </div>
       </template>
@@ -118,6 +117,18 @@ export default {
 
     .plusDiv{
       cursor: pointer;
+    }
+  }
+
+  .rankingBoxBody{
+    padding: 10px;
+    height: 100%;
+    .noData{
+      text-align: center;
+      height: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }
